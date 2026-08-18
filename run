@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+unset JAVA_HOME
+exec ./build/install/cmsc-124-lab0-kotlin/bin/cmsc-124-lab0-kotlin "$@"

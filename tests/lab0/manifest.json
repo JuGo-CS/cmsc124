@@ -1,0 +1,5 @@
+{
+  "ext": ".kts",
+  "mode": "sidecar",
+  "run_entrypoint": "./run"
+}
