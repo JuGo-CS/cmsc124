@@ -1,3 +1,5 @@
-.gradle/
-.kotlin/
-build/
+/.gradle/
+/build/
+/.idea/
+*.iml
+/run_tests.py
