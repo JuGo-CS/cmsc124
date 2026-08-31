@@ -2,4 +2,4 @@
 /build/
 /.idea/
 *.iml
-/run_tests.py
+run_tests.py
