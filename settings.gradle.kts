@@ -1,1 +1,1 @@
-rootProject.name = "cmsc-124-lab0-kotlin"
+rootProject.name = "cmsc-124"
