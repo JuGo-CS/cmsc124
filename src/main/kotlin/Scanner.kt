@@ -1,9 +1,36 @@
 class Scanner(private val source: String) {
+    private val tokens = mutableListOf<Token>()
+    private var start = 0
+    private var current = 0
+    private var line = 1
+    var hadError = false
+        private set
 
-
+    companion object {
+        private val keywords = mapOf(
+            "and" to TokenType.AND,
+            "else" to TokenType.ELSE,
+            "false" to TokenType.FALSE,
+            "fun" to TokenType.FUN,
+            "for" to TokenType.FOR,
+            "if" to TokenType.IF,
+            "nil" to TokenType.NIL,
+            "or" to TokenType.OR,
+            "print" to TokenType.PRINT,
+            "return" to TokenType.RETURN,
+            "true" to TokenType.TRUE,
+            "var" to TokenType.VAR,
+            "while" to TokenType.WHILE
+        )
+    }
 
     fun scanTokens(): List<Token> {
-        // Tobe implemented
+        while (!isAtEnd()) {
+            start = current
+            scanToken()
+        }
+        tokens.add(Token(TokenType.EOF, "", null, line))
+        return tokens
     }
 
     private fun scanToken() {
@@ -37,12 +64,34 @@ class Scanner(private val source: String) {
     }
 
     private fun identifier() {
+        while (isAlphaNumeric(peek())) advance()
+        val text = source.substring(start, current)
+        val type = keywords[text] ?: TokenType.IDENTIFIER
+        addToken(type)
     }
 
     private fun number() {
+        while (peek().isDigit()) advance()
+        if (peek() == '.' && peekNext().isDigit()) {
+            advance()
+            while (peek().isDigit()) advance()
+        }
+        val value = source.substring(start, current).toDouble()
+        addToken(TokenType.NUMBER, value)
     }
 
     private fun string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n') line++
+            advance()
+        }
+        if (isAtEnd()) {
+            reportError(line, "Unterminated string.")
+            return
+        }
+        advance()
+        val value = source.substring(start + 1, current - 1)
+        addToken(TokenType.STRING, value)
     }
 
     // --- helpers ---
@@ -55,6 +104,10 @@ class Scanner(private val source: String) {
     }
 
     private fun match(expected: Char): Boolean {
+        if (isAtEnd()) return false
+        if (source[current] != expected) return false
+        current++
+        return true
     }
 
     private fun peek(): Char {
@@ -74,7 +127,8 @@ class Scanner(private val source: String) {
         isAlpha(c) || c.isDigit()
 
     private fun addToken(type: TokenType, literal: Any? = null) {
-        
+        val text = source.substring(start, current)
+        tokens.add(Token(type, text, literal, line))
     }
 
     private fun reportError(line: Int, message: String) {
