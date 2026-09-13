@@ -60,6 +60,19 @@ class Scanner(private val source: String) {
                     addToken(TokenType.SLASH)
                 }
             }
+            
+            ' ', '\r', '\t' -> { }
+            '\n' -> line++
+
+            '"' -> string()
+
+            else -> {
+                when {
+                    c.isDigit() -> number()
+                    isAlpha(c) -> identifier()
+                    else -> reportError(line, "Unexpected character: '$c'")
+                }
+            }
         }
     }
 

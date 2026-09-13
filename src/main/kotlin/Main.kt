@@ -5,7 +5,6 @@ fun main(args: Array<String>) {
         args.size == 2 && args[0] == "--tokenize" -> runFile(args[1])
         args.isEmpty() -> runPrompt()
         else -> {
-            System.err.println("Usage: ./run --tokenize <file>  OR  ./run")
             exitProcess(64)
         }
     }
@@ -21,9 +20,8 @@ fun runFile(path: String) {
 fun runPrompt() {
     while (true) {
         print("> ")
-        val line = readLine() ?: break
+        val line = readln()
         run(line)
-        // REPL never dies on a bad line
     }
 }
 
