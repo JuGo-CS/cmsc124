@@ -3,6 +3,7 @@ import kotlin.system.exitProcess
 fun main(args: Array<String>) {
     when {
         args.size == 2 && args[0] == "--tokenize" -> runFile(args[1])
+        args.size == 1 -> println("Hello, maayong buntag!")
         args.isEmpty() -> runPrompt()
         else -> {
             exitProcess(64)
