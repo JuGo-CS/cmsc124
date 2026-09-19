@@ -1,18 +1,18 @@
-# [Language name]
+# State Flow
 
 ## Creators
 
-- [Full name] ([github-username])
-- [Full name] ([github-username])
+- Leona Mae Q. Blancaflor / [github-leoleom](https://github.com/leoleom)
+- Kenneth G. Mondejar / [github-JuGo-CS](https://github.com/JuGo-CS)
+
 
 ## Overview
 
-[One paragraph: what the language is for, who would use it, what writing it
-feels like.]
+StateFlow is a general-purpose programming language designed for programs that naturally operate through different stages or states. Its main idea is to make the current execution state of a program and the transitions between states explicit through `state` and `goto` constructs. The language has a readable syntax inspired by languages such as Python, while still providing common programming features such as variables, functions, conditionals, loops, input, and output. State Flow is dynamically typed, so variables and state arguments do not require declared types. It is intended for programs such as interactive applications, transaction workflows, menu-driven programs, quizzes, and other programs where execution naturally moves between different stages.
 
 ## Host language and build
 
-- Host language: [language and version]
+- Host language: Kotlin - 262.9437.185-IJ
 - Version metadata: [file that pins it, e.g. rust-toolchain.toml, go.mod]
 - Build: `./build.sh`
 - [Anything a fresh clone needs to know.]
@@ -23,26 +23,45 @@ feels like.]
 | Command | What it does |
 |---|---|
 | `./run <file>` | [Executes a program. Available from Lab 4.] |
-| `./run --tokenize <file>` | [Prints the token stream.] |
+| `./run --tokenize <file>` | Scans the source file and prints its token stream. |
 | `./run --parse <file>` | [Prints the parsed tree.] |
 | `./run --eval <file>` | [Evaluates each expression and prints its value.] |
 | `./run` | [Starts the REPL.] |
 
 
-Exit codes: 0 [when], 65 [when], 70 [when].
+## Exit codes
+- 0 - A successful scan exits with code 0.
+- 65 [when]
+- 70 [when].
 
 ## File extension
 
-`[.ext]` [Must match the `ext` field in every tests/lab*/manifest.json.]
+StateFlow source files use the `.sta` extension.
 
 ## Lexical structure
 
 ### Keywords
-
+The following words are reserved and cannot be used as identifiers.
 
 | Keyword | Purpose |
-|---|---|
-| [word] | [what it does] |
+| :--- | :--- |
+| **state** | Declares a program state. |
+| **goto** | Transitions execution to another state. |
+| **requires** | Defines a condition that must be satisfied before entering a state. |
+| **var** | Declares a variable. |
+| **fun** | Declares a function. |
+| **if** | Starts a conditional branch. |
+| **else** | Defines the alternative branch of a conditional. |
+| **while** | Starts a while loop. |
+| **for** | Starts a for loop. |
+| **return** | Returns a value from a function. |
+| **print** | Outputs a value. |
+| **input** | Receives input from the user. |
+| **true** | Boolean literal representing true. |
+| **false** | Boolean literal representing false. |
+| **nil** | Represents the absence of a value. |
+| **and** | Logical AND operator. |
+| **or** | Logical OR operator. |
 
 
 ### Operators
