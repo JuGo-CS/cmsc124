@@ -20,7 +20,11 @@ class Scanner(private val source: String) {
             "return" to TokenType.RETURN,
             "true" to TokenType.TRUE,
             "var" to TokenType.VAR,
-            "while" to TokenType.WHILE
+            "while" to TokenType.WHILE,
+            "state" to TokenType.STATE,
+            "goto" to TokenType.GOTO,
+            "requires" to TokenType.REQUIRES,
+            "input" to TokenType.INPUT
         )
     }
 
@@ -60,8 +64,8 @@ class Scanner(private val source: String) {
                     addToken(TokenType.SLASH)
                 }
             }
-
-            ' ', '\r', '\t' -> { /* discard whitespace */ }
+            
+            ' ', '\r', '\t' -> { }
             '\n' -> line++
 
             '"' -> string()
@@ -85,12 +89,10 @@ class Scanner(private val source: String) {
 
     private fun number() {
         while (peek().isDigit()) advance()
-
         if (peek() == '.' && peekNext().isDigit()) {
-            advance() // consume the '.'
+            advance()
             while (peek().isDigit()) advance()
         }
-
         val value = source.substring(start, current).toDouble()
         addToken(TokenType.NUMBER, value)
     }
@@ -100,15 +102,11 @@ class Scanner(private val source: String) {
             if (peek() == '\n') line++
             advance()
         }
-
         if (isAtEnd()) {
             reportError(line, "Unterminated string.")
             return
         }
-
-        advance() // consume closing "
-
-        // strip surrounding quotes for the literal value
+        advance()
         val value = source.substring(start + 1, current - 1)
         addToken(TokenType.STRING, value)
     }
