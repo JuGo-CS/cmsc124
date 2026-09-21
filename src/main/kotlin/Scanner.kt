@@ -94,17 +94,43 @@ class Scanner(private val source: String) {
     }
 
     private fun string() {
+        val value = StringBuilder()
+ 
         while (peek() != '"' && !isAtEnd()) {
-            if (peek() == '\n') line++
-            advance()
+            val ch = peek()
+            when {
+                ch == '\n' -> {
+                    line++
+                    value.append(advance())
+                }
+                ch == '\\' -> {
+                    advance() // consume the backslash
+                    if (isAtEnd()) {
+                        reportError(line, "Unterminated string.")
+                        return
+                    }
+                    when (val escaped = advance()) {
+                        'n' -> value.append('\n')
+                        't' -> value.append('\t')
+                        '\\' -> value.append('\\')
+                        '"' -> value.append('"')
+                        else -> {
+                            reportError(line, "Invalid escape sequence: '\\$escaped'")
+                            value.append(escaped)
+                        }
+                    }
+                }
+                else -> value.append(advance())
+            }
         }
+ 
         if (isAtEnd()) {
             reportError(line, "Unterminated string.")
             return
         }
-        advance()
-        val value = source.substring(start + 1, current - 1)
-        addToken(TokenType.STRING, value)
+ 
+        advance() // consume the closing "
+        addToken(TokenType.STRING, value.toString())
     }
 
     // --- helpers ---

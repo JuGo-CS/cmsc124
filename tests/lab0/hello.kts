@@ -1,3 +1,3 @@
 fun main(){
-    println("Magandang buhay!")
+    println("Hello, maayong buntag!")
 }
