@@ -1,0 +1,5 @@
+{
+    "ext": ".kts",
+    "flag": "--parse",
+    "mode": "sidecar"
+}
